@@ -67,8 +67,7 @@ CREATE TABLE train (
   name varchar(20) NOT NULL UNIQUE,
 
   total_seats int DEFAULT 100,
-  ac_price int DEFAULT 1000,
-  general_price int DEFAULT 300,
+  price int DEFAULT 1000,
 
   starts_at int NOT NULL,
   ends_at int NOT NULL,
@@ -196,41 +195,53 @@ CREATE TABLE books (
 --     OR ((SELECT (D.stop_no) FROM route AS D WHERE D.train_id = A.train_id AND D.station_id = 1) < ANY (SELECT (E.stop_no) FROM route AS E WHERE E.train_id = A.train_id AND E.station_id = 4));
 
 
-INSERT INTO station (name)
-VALUES
-('a'),
-('b'),
-('c'),
-('d'),
-('e'),
-('f'),
-('g'),
-('h');
+-- UPDATE ticket SET status = 1
+-- WHERE ticket_id IN 
+-- (SELECT ticket_id FROM books AS B WHERE user_id = %s AND 
+-- ((SELECT booked_seats FROM train_status AS C WHERE C.train_id = B.train_id AND C.date = B.date) <= (SELECT total_seats FROM train AS D WHERE D.traid_id = B.train_id)));
+
+-- SELECT SUM(B.price) AS total_costs FROM
+-- (SELECT (train_id) FROM books WHERE user_id = %s) AS A
+-- INNER JOIN
+-- (SELECT (train_id, price) FROM train) AS B
+-- ON A.train_id = B.train_id; 
 
 
-INSERT INTO train (name, starts_at, ends_at)
-VALUES
-('A', 1, 5),
-('B', 2, 4),
-('D', 7, 1),
-('C', 8, 1);
+-- INSERT INTO station (name)
+-- VALUES
+-- ('a'),
+-- ('b'),
+-- ('c'),
+-- ('d'),
+-- ('e'),
+-- ('f'),
+-- ('g'),
+-- ('h');
 
-INSERT INTO route (stop_no, train_id, station_id)
-VALUES
-(1, 1, 2),
-(2, 1, 3),
 
-(1, 2, 3),
+-- INSERT INTO train (name, starts_at, ends_at)
+-- VALUES
+-- ('A', 1, 5),
+-- ('B', 2, 4),
+-- ('D', 7, 1),
+-- ('C', 8, 1);
 
-(1, 3, 4),
-(2, 3, 3),
-(3, 3, 2),
+-- INSERT INTO route (stop_no, train_id, station_id)
+-- VALUES
+-- (1, 1, 2),
+-- (2, 1, 3),
 
-(1, 4, 2),
-(2, 4, 4),
-(3, 4, 3),
-(4, 4, 7);
+-- (1, 2, 3),
 
-INSERT INTO route (stop_no, train_id, station_id)
-VALUES
-(3, 1, 4);
+-- (1, 3, 4),
+-- (2, 3, 3),
+-- (3, 3, 2),
+
+-- (1, 4, 2),
+-- (2, 4, 4),
+-- (3, 4, 3),
+-- (4, 4, 7);
+
+-- INSERT INTO route (stop_no, train_id, station_id)
+-- VALUES
+-- (3, 1, 4);
