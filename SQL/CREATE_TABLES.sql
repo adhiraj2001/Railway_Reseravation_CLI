@@ -90,7 +90,7 @@ CREATE TABLE train (
 DROP TABLE IF EXISTS passenger_contact;
 
 CREATE TABLE passenger_contact (
-  passenger_id int,
+  passenger_id int NOT NULL,
   mobile_no int,
 
   FOREIGN KEY (passenger_id) REFERENCES passenger(passenger_id)
@@ -103,7 +103,7 @@ DROP TABLE IF EXISTS passenger_address;
 
 CREATE TABLE passenger_address (
   
-  passenger_id int,
+  passenger_id int NOT NULL,
   
   -- Composite attributes represented as their atomic attributes
   street varchar(20),
