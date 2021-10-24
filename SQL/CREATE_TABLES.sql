@@ -218,6 +218,97 @@ CREATE TABLE books (
 -- ('g'),
 -- ('h');
 
+INSERT INTO user (password)
+VALUES 
+('ab'), 
+('bc'),
+('cd');
+
+INSERT INTO passenger (name, date, gender)
+VALUES
+('sukhjinder','2003-02-22','MALE'),
+('pranjal','2002-03-17','MALE'),
+('adhiraj','2001-01-01','MALE'), -- to be checked
+('kohli','2010-01-30','MALE'),
+('dhoni','2011-04-22','MALE'),
+('pvsindhu','2016-06-01','FEMALE');
+
+INSERT INTO station (name, street, city, state)
+VALUES 
+('chandigarh','abc','chandigarh','Punjab'),  --1
+('Abohar','bcd','Abohar','AP'),  --2
+('Abu','cde','Abu','HP'),    --3
+('Achalda','def','Achalda','UP'),   --4
+('Achhnera','efg','Achhnera','MP'), --5
+('Abhaipur','fgh','Abhaipur','UK'), --6
+('Adavali','ijk','Adavali','Delhi');    --7
+
+INSERT INTO train (name, total_seats, price, starts_at, ends_at )
+VALUES 
+('t1',50,100,1,2), 
+('t2',51,101,1,3),
+('t3',52,102,2,4),
+('t4',53,103,2,5),
+('t5',54,104,3,6),
+('t6',55,105,3,7);
+
+INSERT INTO passenger_contact (passenger_id, mobile_no)
+VALUES
+(1,1234567890),
+(2,1234567891),
+(3,1234567892),
+(4,1234567893),
+(5,1234567894),
+(6,1234567895),
+(5,1234567896),
+(6,1234567897),
+(1,1234567898);
+
+INSERT INTO passenger_address (passenger_id, street, city, state)
+VALUES
+(1,'abc','chandigarh','Punjab'),
+(2,'bcd','Abohar','AP'),
+(3,'cde','Abu','HP'),
+(4,'def','Achalda','UP'),
+(5,'efg','Achhnera','MP'),
+(6,'fgh','Abhaipur','UK');
+
+INSERT INTO train_status (train_id, date, booked_seats)
+VALUES
+(1,'2021-10-01',40), 
+(2,'2021-10-02',41),
+(3,'2021-10-03',42),
+(4,'2021-10-04',43),
+(5,'2021-10-05',44),
+(6,'2021-10-01',45),
+(1,'2021-11-01',46),
+(2,'2022-10-01',47),
+(3,'2021-10-06',48); 
+
+INSERT INTO route (train_id, stop_no, station_id)
+VALUES
+(1,1,1),  
+(1,2,5), 
+(1,3,3),
+(2,1,1), 
+(2,2,2), 
+(2,3,5),
+(2,4,4),
+(3,1,1), 
+(3,2,5), 
+(3,3,3),
+(3,4,6),
+(4,1,1), 
+(4,2,2), 
+(4,3,3),
+(4,4,4),
+(4,5,7),
+(5,1,1), 
+(5,2,6), 
+(5,3,5),
+(6,1,5), 
+(6,2,7), 
+(6,3,3);
 
 -- INSERT INTO train (name, starts_at, ends_at)
 -- VALUES
