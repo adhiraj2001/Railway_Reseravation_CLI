@@ -182,41 +182,7 @@ CREATE TABLE books (
 );
 
 
-
--- SELECT * from train_status
--- WHERE train_id IN (SELECT (A.train_id) FROM train as A
---     WHERE (A.starts_at = 1 AND (A.ends_at = 4 OR 4 IN (SELECT B.station_id FROM route AS B WHERE B.train_id = A.train_id)))
---     OR (A.ends_at = 4 AND 1 in (SELECT C.station_id FROM route as C WHERE C.train_id = A.train_id))
---     OR ((SELECT (D.stop_no) FROM route AS D WHERE D.train_id = A.train_id AND D.station_id = 1) < ANY (SELECT (E.stop_no) FROM route AS E WHERE E.train_id = A.train_id AND E.station_id = 4)));
-
--- SELECT (A.train_id) FROM train as A
---     WHERE (A.starts_at = 1 AND (A.ends_at = 4 OR 4 IN (SELECT B.station_id FROM route AS B WHERE B.train_id = A.train_id)))
---     OR (A.ends_at = 4 AND 1 in (SELECT C.station_id FROM route as C WHERE C.train_id = A.train_id))
---     OR ((SELECT (D.stop_no) FROM route AS D WHERE D.train_id = A.train_id AND D.station_id = 1) < ANY (SELECT (E.stop_no) FROM route AS E WHERE E.train_id = A.train_id AND E.station_id = 4));
-
-
--- UPDATE ticket SET status = 1
--- WHERE ticket_id IN 
--- (SELECT ticket_id FROM books AS B WHERE user_id = %s AND 
--- ((SELECT booked_seats FROM train_status AS C WHERE C.train_id = B.train_id AND C.date = B.date) <= (SELECT total_seats FROM train AS D WHERE D.traid_id = B.train_id)));
-
--- SELECT SUM(B.price) AS total_costs FROM
--- (SELECT (train_id) FROM books WHERE user_id = %s) AS A
--- INNER JOIN
--- (SELECT (train_id, price) FROM train) AS B
--- ON A.train_id = B.train_id; 
-
-
--- INSERT INTO station (name)
--- VALUES
--- ('a'),
--- ('b'),
--- ('c'),
--- ('d'),
--- ('e'),
--- ('f'),
--- ('g'),
--- ('h');
+-- Insert Queries
 
 INSERT INTO user (password)
 VALUES 
@@ -224,7 +190,7 @@ VALUES
 ('bc'),
 ('cd');
 
-INSERT INTO passenger (name, date, gender)
+INSERT INTO passenger (name, dob, gender)
 VALUES
 ('sukhjinder','2003-02-22','MALE'),
 ('pranjal','2002-03-17','MALE'),
@@ -235,15 +201,15 @@ VALUES
 
 INSERT INTO station (name, street, city, state)
 VALUES 
-('chandigarh','abc','chandigarh','Punjab'),  --1
-('Abohar','bcd','Abohar','AP'),  --2
-('Abu','cde','Abu','HP'),    --3
-('Achalda','def','Achalda','UP'),   --4
-('Achhnera','efg','Achhnera','MP'), --5
-('Abhaipur','fgh','Abhaipur','UK'), --6
-('Adavali','ijk','Adavali','Delhi');    --7
+('chandigarh','abc','chandigarh','Punjab'), -- 1
+('Abohar','bcd','Abohar','AP'), -- 2
+('Abu','cde','Abu','HP'), -- 3
+('Achalda','def','Achalda','UP'), -- 3 
+('Achhnera','efg','Achhnera','MP'), -- 4
+('Abhaipur','fgh','Abhaipur','UK'), -- 5
+('Adavali','ijk','Adavali','Delhi'); -- 6
 
-INSERT INTO train (name, total_seats, price, starts_at, ends_at )
+INSERT INTO train (name, total_seats, price, starts_at, ends_at)
 VALUES 
 ('t1',50,100,1,2), 
 ('t2',51,101,1,3),
@@ -282,7 +248,7 @@ VALUES
 (5,'2021-10-05',44),
 (6,'2021-10-01',45),
 (1,'2021-11-01',46),
-(2,'2022-10-01',47),
+(2,'2021-10-01',47),
 (3,'2021-10-06',48); 
 
 INSERT INTO route (train_id, stop_no, station_id)
@@ -309,6 +275,42 @@ VALUES
 (6,1,5), 
 (6,2,7), 
 (6,3,3);
+
+
+-- SELECT * from train_status
+-- WHERE train_id IN (SELECT (A.train_id) FROM train as A
+--     WHERE (A.starts_at = 1 AND (A.ends_at = 4 OR 4 IN (SELECT B.station_id FROM route AS B WHERE B.train_id = A.train_id)))
+--     OR (A.ends_at = 4 AND 1 in (SELECT C.station_id FROM route as C WHERE C.train_id = A.train_id))
+--     OR ((SELECT (D.stop_no) FROM route AS D WHERE D.train_id = A.train_id AND D.station_id = 1) < ANY (SELECT (E.stop_no) FROM route AS E WHERE E.train_id = A.train_id AND E.station_id = 4)));
+
+-- SELECT (A.train_id) FROM train as A
+--     WHERE (A.starts_at = 1 AND (A.ends_at = 4 OR 4 IN (SELECT B.station_id FROM route AS B WHERE B.train_id = A.train_id)))
+--     OR (A.ends_at = 4 AND 1 in (SELECT C.station_id FROM route as C WHERE C.train_id = A.train_id))
+--     OR ((SELECT (D.stop_no) FROM route AS D WHERE D.train_id = A.train_id AND D.station_id = 1) < ANY (SELECT (E.stop_no) FROM route AS E WHERE E.train_id = A.train_id AND E.station_id = 4));
+
+
+-- UPDATE ticket SET status = 1
+-- WHERE ticket_id IN 
+-- (SELECT ticket_id FROM books AS B WHERE user_id = %s AND 
+-- ((SELECT booked_seats FROM train_status AS C WHERE C.train_id = B.train_id AND C.date = B.date) <= (SELECT total_seats FROM train AS D WHERE D.traid_id = B.train_id)));
+
+-- SELECT SUM(B.price) AS total_costs FROM
+-- (SELECT (train_id) FROM books WHERE user_id = %s) AS A
+-- INNER JOIN
+-- (SELECT (train_id, price) FROM train) AS B
+-- ON A.train_id = B.train_id; 
+
+
+-- INSERT INTO station (name)
+-- VALUES
+-- ('a'),
+-- ('b'),
+-- ('c'),
+-- ('d'),
+-- ('e'),
+-- ('f'),
+-- ('g'),
+-- ('h');
 
 -- INSERT INTO train (name, starts_at, ends_at)
 -- VALUES
