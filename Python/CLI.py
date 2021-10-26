@@ -14,11 +14,11 @@ import time
 # DB_NAME = os.getenv("DB_NAME")
 # MYSQL_HOST = os.getenv("MYSQL_HOST")
 
-# connection = pymysql.connect(host=MYSQL_HOST,
-#                              user=MYSQL_USERNAME, password=MYSQL_PASSWORD, db=DB_NAME,
-#                              cursorclass=pymysql.cursors.DictCursor)
 
 try:
+    # connection = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USERNAME, 
+    #                 password=MYSQL_PASSWORD, db=DB_NAME, port=30306, cursorclass=pymysql.cursors.DictCursor)
+
     connection = pymysql.connect(host='localhost', user='root', 
                         password='pwd', port=30306, db='railway', cursorclass=pymysql.cursors.DictCursor)
     
@@ -35,15 +35,15 @@ try:
 except Exception as e:
     sp.call('clear', shell=True)
 
-    print(e)
+    print(">>> ", e)
     print("> Connection Refused: Either username or password is incorrect or user doesn't have access to database")
     print()
 
 
 ### global update variable:
-user_no = 0
-passenger_no = 0
-ticket_no = 0
+user_no = int(0)
+passenger_no = int(0)
+ticket_no = int(0)
 
 
 def book(cur, user_id):
@@ -137,26 +137,30 @@ def book(cur, user_id):
         return 
 
     try:
+        ticket_no += 1
+
         query = """INSERT INTO ticket (ticket_id, date, source, destination) VALUES(%s, %s, %s, %s);"""
-        cur.execute(query, (ticket_no + 1, date, source, destination))
+        cur.execute(query, ((ticket_no), date, source, destination))
         connection.commit()
 
     except Exception as e:
         connection.rollback()
 
+        ticket_no -= 1
+
         print("Failed to insert into database")
         print(">>>>>>>>>>>>>", e)
         print()
         return
-    
-    ticket_no += 1
 
     try:
+
         query = """INSERT INTO books VALUES(%s, %s, %s, %s, %s);"""
         cur.execute(query, (user_id, passenger_id, ticket_no, train_id, date))
         connection.commit()
 
     except Exception as e:
+
         connection.rollback()
 
         print("> Failed to insert into database")
@@ -289,24 +293,26 @@ def add_passenger(cur):
     print()
 
     sp.call('clear', shell=True)
-
+    
 
     try:
+        passenger_no += 1
+
         query = """INSERT INTO passenger (passenger_id, name, dob, gender)
         VALUES(%s, %s, %s, %s);"""
         
-        cur.execute(query, (passenger_no + 1, name, dob, gender))
+        cur.execute(query, (passenger_no, name, dob, gender))
         connection.commit()
 
     except Exception as e:
         connection.rollback()
 
+        passenger_no -= 1
+
         print("> Failed to insert into database")
         print(">>>>>>>>>>>>>", e)
         print()
         return
-
-    passenger_no += 1
 
     print('> Passenger table inserted.')
     print()
@@ -772,21 +778,23 @@ def create_user(cur):
     print()
 
     sp.call('clear', shell=True)
-    
+
     try:
+        user_no += 1 
+
         query = """INSERT INTO user (user_id, password) VALUES(%s, %s);"""
-        cur.execute(query, (user_no + 1, password))
+        cur.execute(query, (user_no, password))
         connection.commit()
 
     except Exception as e:
         connection.rollback()
 
+        user_no -= 1 
+
         print("> Failed to insert into database")
         print(">>>>>>>>>>>>>", e)
         print()
         return
-
-    user_no += 1
     
     print('> Logged in Successfully.')
     print()
@@ -863,21 +871,24 @@ if __name__ == "__main__":
                     cur.execute(query)
                     res = cur.fetchall()
 
-                    user_no = res[0]['MAX(user_id)']
+                    if len(res) > 0 and res[0]['MAX(user_id)'] is not None:
+                        user_no = int(res[0]['MAX(user_id)'])
 
                 if passenger_no == 0:
                     query = """SELECT MAX(passenger_id) from passenger;"""
                     cur.execute(query)
                     res = cur.fetchall()
 
-                    passenger_no = res[0]['MAX(passenger_id)']
+                    if len(res) > 0 and res[0]['MAX(passenger_id)'] is not None:
+                        passenger_no = int(res[0]['MAX(passenger_id)'])
                 
                 if ticket_no == 0:
                     query = """SELECT MAX(ticket_id) from ticket;"""
                     cur.execute(query)
                     res = cur.fetchall()
 
-                    ticket_no = res[0]['MAX(ticket_id)']
+                    if len(res) > 0 and res[0]['MAX(ticket_id)'] is not None:
+                        ticket_no = int(res[0]['MAX(ticket_id)'])
 
                 print("1. Display all user_id")
                 print("2. Select a user_id")
@@ -909,5 +920,5 @@ if __name__ == "__main__":
 
         except Exception as e:
             # sp.call('clear', shell=True)
-            print(e)
+            print(">>> ", e)
             print()
